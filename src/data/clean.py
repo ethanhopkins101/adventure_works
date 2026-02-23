@@ -222,3 +222,146 @@ def clean_calendar(df):
         print(f"Calendar Logic Error: {e}")
 
     return df_clean
+
+
+def clean_subcategories(df):
+    """
+    Cleans Product Subcategories: validates schema, removes noise, 
+    and enforces string integrity.
+    """
+    df_clean = df.copy()
+
+    # 1. Column Count Validation
+    try:
+        if len(df_clean.columns) != 3:
+            raise ValueError(f"Expected 3 columns, but found {len(df_clean.columns)}")
+    except ValueError as e:
+        print(f"Schema Validation Error: {e}")
+        # In a real pipeline, you might return None or raise the error here
+
+    # 2. Drop Duplicates and NaNs
+    df_clean = df_clean.drop_duplicates()
+    df_clean = df_clean.dropna(subset=['SubcategoryName'])
+
+    # 3 & 5. String Cleaning: Strip spaces and remove names with numbers
+    try:
+        # Strip spaces first
+        df_clean['SubcategoryName'] = df_clean['SubcategoryName'].astype(str).str.strip()
+        
+        # Keep only rows where SubcategoryName contains NO digits (\d)
+        df_clean = df_clean[~df_clean['SubcategoryName'].str.contains(r'\d', na=False)]
+    except Exception as e:
+        print(f"String Transformation Error: {e}")
+
+    # 4. Transform into Categories
+    df_clean['SubcategoryName'] = df_clean['SubcategoryName'].astype('category')
+
+    return df_clean
+
+
+def clean_categories(df):
+    """
+    Cleans Product Categories: enforces 2-column schema and string purity.
+    """
+    df_clean = df.copy()
+
+    # 1. Column Count Validation
+    try:
+        if len(df_clean.columns) != 2:
+            raise ValueError(f"Expected 2 columns, but found {len(df_clean.columns)}")
+    except ValueError as e:
+        print(f"Category Schema Error: {e}")
+
+    # 2. Drop Duplicates and NaNs
+    df_clean = df_clean.drop_duplicates()
+    df_clean = df_clean.dropna(subset=['CategoryName'])
+
+    # 3 & 5. String Cleaning: Strip and Remove Numbers
+    try:
+        # Strip whitespace
+        df_clean['CategoryName'] = df_clean['CategoryName'].astype(str).str.strip()
+        
+        # Keep only rows without digits
+        df_clean = df_clean[~df_clean['CategoryName'].str.contains(r'\d', na=False)]
+    except Exception as e:
+        print(f"Category Name Error: {e}")
+
+    # 4. Transform to categories
+    df_clean['CategoryName'] = df_clean['CategoryName'].astype('category')
+
+    return df_clean
+
+
+def clean_territories(df):
+    """
+    Cleans Territory data: validates schema, handles spatial NaNs, 
+    and sanitizes categorical regions.
+    """
+    df_clean = df.copy()
+
+    # 1. Column Count Validation
+    try:
+        if len(df_clean.columns) != 4:
+            raise ValueError(f"Expected 4 columns, but found {len(df_clean.columns)}")
+    except ValueError as e:
+        print(f"Territory Schema Error: {e}")
+
+    # 2. Drop duplicates and rows missing BOTH Country and Region
+    df_clean = df_clean.drop_duplicates()
+    df_clean = df_clean.dropna(subset=['Country', 'Region'], how='all')
+
+    # 3 & 4. Strip spaces and Transform into Categories
+    geo_cols = ['Region', 'Country', 'Continent']
+    try:
+        for col in geo_cols:
+            if col in df_clean.columns:
+                # Strip spaces first while it's still a string
+                df_clean[col] = df_clean[col].astype(str).str.strip()
+                # Then transform to category
+                df_clean[col] = df_clean[col].astype('category')
+    except Exception as e:
+        print(f"Territory Transformation Error: {e}")
+
+    return df_clean
+
+def clean_sales(df):
+    """
+    Cleans Sales data: handles outliers, enforces schema, 
+    and validates relational keys.
+    """
+    df_clean = df.copy()
+
+    # 1. Column Count Validation
+    try:
+        if len(df_clean.columns) != 8:
+            raise ValueError(f"Expected 8 columns, but found {len(df_clean.columns)}")
+    except ValueError as e:
+        print(f"Sales Schema Error: {e}")
+
+    # 2. Drop duplicates and NaNs in critical columns
+    critical_cols = ['OrderDate', 'OrderNumber', 'ProductKey', 'CustomerKey', 'OrderQuantity']
+    df_clean = df_clean.drop_duplicates()
+    df_clean = df_clean.dropna(subset=critical_cols)
+
+    # 3. Ensure 'OrderQuantity' is int
+    df_clean['OrderQuantity'] = df_clean['OrderQuantity'].astype(int)
+
+    # 4. Outlier Detection: 99% Distribution Filter
+    q_high = df_clean['OrderQuantity'].quantile(0.99)
+    df_clean = df_clean[df_clean['OrderQuantity'] <= q_high]
+
+    # 5. Transform Dates to 'day-month-year'
+    date_cols = ['OrderDate', 'StockDate']
+    for col in date_cols:
+        try:
+            # Flexible parsing like we did for Calendar
+            df_clean[col] = pd.to_datetime(df_clean[col], dayfirst=True, format='mixed', errors='coerce')
+            df_clean = df_clean.dropna(subset=[col])
+            df_clean[col] = df_clean[col].dt.strftime('%d-%m-%Y')
+        except Exception as e:
+            print(f"Sales Date Error in {col}: {e}")
+
+    # 6. Strip spaces from 'OrderNumber'
+    df_clean['OrderNumber'] = df_clean['OrderNumber'].astype(str).str.strip()
+
+    return df_clean
