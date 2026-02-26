@@ -59,3 +59,35 @@ def get_purchase_probability_data(sales_path, products_path, subcats_path):
     # 6. Cleanup
     final_cols = ['CustomerKey', 'SubcategoryName', 'probability of purchase']
     return purchase_probability[final_cols].dropna()
+
+
+def get_customer_demographics(file_path='../../../data/cleaned/Cleaned_Customers.csv'):
+    """
+    Loads customer attributes and calculates Age based on a fixed reference date.
+    
+    Returns:
+        pd.DataFrame: Cleaned demographics with Age and categorical attributes.
+    """
+    # 1. Load data
+    cust_df = pd.read_csv(file_path)
+
+    # 2. Select specific columns
+    cols_to_pull = [
+        'CustomerKey', 'BirthDate', 'MaritalStatus', 'Gender', 
+        'AnnualIncome', 'TotalChildren', 'EducationLevel', 
+        'Occupation', 'HomeOwner'
+    ]
+    cust_df = cust_df[cols_to_pull].copy()
+
+    # 3. Calculate Age
+    # Converting to datetime and using the 2017-08-01 reference point
+    cust_df['BirthDate'] = pd.to_datetime(cust_df['BirthDate'])
+    ref_date = pd.Timestamp('2017-08-01')
+
+    # Integer division // 365 to get full years
+    cust_df['Age'] = (ref_date - cust_df['BirthDate']).dt.days // 365
+
+    # 4. Cleanup
+    cust_df.drop(columns=['BirthDate'], inplace=True)
+    
+    return cust_df

@@ -147,6 +147,23 @@ def test_sales_cleaning():
     print(cleaned_sales)
     return cleaned_sales
 
+from src.data.clean import clean_returns
+
+def test_returns_cleaning():
+    data = {
+        'ReturnDate': ['2023-01-01'] * 18 + ['2023-01-01', '2023-01-05'],
+        'TerritoryKey': [1] * 20,
+        'ProductKey': [100] * 20,
+        'ReturnQuantity': [1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 500]
+    }
+    df_ret = pd.DataFrame(data)
+    
+    cleaned_ret = clean_returns(df_ret)
+    
+    print("\n--- Cleaned Returns ---")
+    print(cleaned_ret)
+    return cleaned_ret
+
 if __name__ == "__main__":
     print("RUNNING ALL DATA CLEANING TESTS...")
     
@@ -158,3 +175,4 @@ if __name__ == "__main__":
     #test_category_cleaning()
     #test_territory_cleaning()
     test_sales_cleaning()
+    #test_returns_cleaning()
