@@ -200,8 +200,6 @@ def clean_calendar(df):
 
     # 2. Strict & Flexible Parsing
     try:
-        # 'format="mixed"' tells pandas to guess the format for EACH row 
-        # 'dayfirst=True' prioritizes the European/International style
         df_clean['Date'] = pd.to_datetime(
             df_clean['Date'], 
             dayfirst=True, 
@@ -209,14 +207,19 @@ def clean_calendar(df):
             errors='coerce'
         )
 
-        # Drop rows that are truly garbage (e.g. '01-2023-02' which is non-standard)
+        # --- TEMPORAL GUARDRAIL ---
+        # Filters out any dates that shouldn't exist in the historical dataset
+        proxy_max_date = pd.Timestamp('2017-06-30')
+        df_clean = df_clean[df_clean['Date'] <= proxy_max_date]
+
+        # Drop rows that failed to parse (NaT)
         df_clean = df_clean.dropna(subset=['Date'])
 
-        # 3. Set DateTimeIndex
-        df_clean.set_index('Date', inplace=True)
+        # 3. Sort by Date
+        df_clean = df_clean.sort_values(by='Date')
         
-        # 4. Final Formatting to 'DD-MM-YYYY'
-        df_clean.index = df_clean.index.strftime('%d-%m-%Y')
+        # 4. Final Formatting to 'DD-MM-YYYY' string
+        df_clean['Date'] = df_clean['Date'].dt.strftime('%d-%m-%Y')
         
     except Exception as e:
         print(f"Calendar Logic Error: {e}")
@@ -324,44 +327,97 @@ def clean_territories(df):
 
     return df_clean
 
+
 def clean_sales(df):
     """
-    Cleans Sales data: handles outliers, enforces schema, 
-    and validates relational keys.
+    Cleans Sales: Aggregates duplicates, removes future-dated rows, 
+    and filters outliers.
+    """
+    # Record initial count for validation
+    initial_row_count = len(df)
+    df_clean = df.copy()
+
+    # 1. Date Parsing (Apply to both OrderDate and StockDate)
+    # format='mixed' allows pandas to switch between DMY and MDY automatically
+    df_clean['OrderDate'] = pd.to_datetime(df_clean['OrderDate'], dayfirst=True, format='mixed', errors='coerce')
+    df_clean['StockDate'] = pd.to_datetime(df_clean['StockDate'], dayfirst=True, format='mixed', errors='coerce')
+    
+    # --- TEMPORAL GUARDRAIL ---
+    proxy_max_date = pd.Timestamp('2017-06-30') 
+    df_clean = df_clean[df_clean['OrderDate'] <= proxy_max_date]
+    
+    # 2. Drop NaNs and Strip Whitespace
+    critical_cols = ['OrderDate', 'OrderNumber', 'ProductKey', 'CustomerKey', 'OrderQuantity']
+    df_clean = df_clean.dropna(subset=critical_cols)
+    df_clean['OrderNumber'] = df_clean['OrderNumber'].astype(str).str.strip()
+
+    # 3. Aggregated De-duplication
+    group_cols = ['OrderDate', 'OrderNumber', 'ProductKey', 'CustomerKey', 'TerritoryKey']
+    df_clean = df_clean.groupby(group_cols, as_index=False).agg({
+        'OrderQuantity': 'sum',
+        'StockDate': 'first',      
+        'OrderLineItem': 'first'
+    })
+
+    # 4. Outlier Detection
+    if not df_clean.empty:
+        q_high = df_clean['OrderQuantity'].quantile(0.99)
+        df_clean = df_clean[df_clean['OrderQuantity'] <= q_high]
+
+    # 5. Final Formatting (Format both dates back to DD-MM-YYYY strings)
+    df_clean = df_clean.sort_values(by='OrderDate')
+    df_clean['OrderQuantity'] = df_clean['OrderQuantity'].astype(int)
+    
+    # Apply format to both columns
+    df_clean['OrderDate'] = df_clean['OrderDate'].dt.strftime('%d-%m-%Y')
+    df_clean['StockDate'] = df_clean['StockDate'].dt.strftime('%d-%m-%Y')
+
+    # --- FINAL INTEGRITY CHECK ---
+    if len(df_clean) > initial_row_count:
+        print(f"🚨 CRITICAL ERROR: Row count increased from {initial_row_count} to {len(df_clean)}.")
+    
+    return df_clean
+def clean_returns(df):
+    """
+    Cleans Returns data: validates schema, handles outliers, 
+    and synchronizes date formats.
     """
     df_clean = df.copy()
 
     # 1. Column Count Validation
     try:
-        if len(df_clean.columns) != 8:
-            raise ValueError(f"Expected 8 columns, but found {len(df_clean.columns)}")
+        if len(df_clean.columns) != 4:
+            raise ValueError(f"Expected 4 columns, but found {len(df_clean.columns)}")
     except ValueError as e:
-        print(f"Sales Schema Error: {e}")
+        print(f"Returns Schema Error: {e}")
 
-    # 2. Drop duplicates and NaNs in critical columns
-    critical_cols = ['OrderDate', 'OrderNumber', 'ProductKey', 'CustomerKey', 'OrderQuantity']
+    # 2. Drop duplicates and critical NaNs
+    critical_cols = ['ReturnQuantity', 'ReturnDate', 'ProductKey']
     df_clean = df_clean.drop_duplicates()
     df_clean = df_clean.dropna(subset=critical_cols)
 
-    # 3. Ensure 'OrderQuantity' is int
-    df_clean['OrderQuantity'] = df_clean['OrderQuantity'].astype(int)
+    # 3. Ensure 'ReturnQuantity' is int
+    df_clean['ReturnQuantity'] = df_clean['ReturnQuantity'].astype(int)
 
     # 4. Outlier Detection: 99% Distribution Filter
-    q_high = df_clean['OrderQuantity'].quantile(0.99)
-    df_clean = df_clean[df_clean['OrderQuantity'] <= q_high]
+    if not df_clean.empty:
+        q_high = df_clean['ReturnQuantity'].quantile(0.99)
+        df_clean = df_clean[df_clean['ReturnQuantity'] <= q_high]
 
-    # 5. Transform Dates to 'day-month-year'
-    date_cols = ['OrderDate', 'StockDate']
-    for col in date_cols:
-        try:
-            # Flexible parsing like we did for Calendar
-            df_clean[col] = pd.to_datetime(df_clean[col], dayfirst=True, format='mixed', errors='coerce')
-            df_clean = df_clean.dropna(subset=[col])
-            df_clean[col] = df_clean[col].dt.strftime('%d-%m-%Y')
-        except Exception as e:
-            print(f"Sales Date Error in {col}: {e}")
-
-    # 6. Strip spaces from 'OrderNumber'
-    df_clean['OrderNumber'] = df_clean['OrderNumber'].astype(str).str.strip()
+    # 5. Transform 'ReturnDate' to 'day-month-year'
+    try:
+        # Flexible parsing as established
+        df_clean['ReturnDate'] = pd.to_datetime(
+            df_clean['ReturnDate'], 
+            dayfirst=True, 
+            format='mixed', 
+            errors='coerce'
+        )
+        # Remove any rows that failed parsing
+        df_clean = df_clean.dropna(subset=['ReturnDate'])
+        # Final string formatting
+        df_clean['ReturnDate'] = df_clean['ReturnDate'].dt.strftime('%d-%m-%Y')
+    except Exception as e:
+        print(f"Returns Date Error: {e}")
 
     return df_clean
