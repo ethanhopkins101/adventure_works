@@ -1,8 +1,43 @@
 import pandas as pd
 import numpy as np
 import logging
+import os
+import sys
+
+# Setup for encoder access
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../data')))
+try:
+    from encoder import sync_subcategory_encoding
+except ImportError:
+    logging.warning("Encoder module not found. apply_persistent_encoding will fail.")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def apply_persistent_encoding(df):
+    """
+    Assigns unique numerical IDs to subcategories and replaces the original names.
+    Ensures the 'SubcategoryName' column becomes purely numerical.
+    """
+    logging.info("Applying persistent encoding and replacing names with IDs...")
+    
+    # 1. Clean data to prevent sorting errors (float vs str)
+    if 'SubcategoryName' in df.columns:
+        df['SubcategoryName'] = df['SubcategoryName'].fillna('Unknown').astype(str)
+    else:
+        logging.error("SubcategoryName column missing during encoding!")
+        return df
+
+    # 2. Get the encoded dataframe and the mapping dictionary
+    df_encoded, mapping = sync_subcategory_encoding(df)
+    
+    # 3. REPLACEMENT LOGIC
+    # Overwrite the original name column with the numerical IDs
+    df_encoded['SubcategoryName'] = df_encoded['SubcategoryEncoded']
+    
+    # 4. Cleanup: Remove the redundant 'SubcategoryEncoded' column
+    df_encoded = df_encoded.drop(columns=['SubcategoryEncoded'])
+    
+    return df_encoded
 
 def time_series_split(df, days=30):
     """Helper to split the last 30 days for testing."""
@@ -12,86 +47,68 @@ def time_series_split(df, days=30):
     test = df[df['OrderDate'] > cutoff]
     return train, test
 
-def generate_features(df_raw, m_date, df_subs):
+def create_daily_skeleton(df_raw, m_date, df_subs):
+    """Ensures every date exists for every subcategory. Fills gaps with zeros."""
+    df_daily = df_raw.groupby(['OrderDate', 'SubcategoryName']).agg({
+        'OrderQuantity': 'sum',
+        'StockDate': 'min'
+    }).reset_index()
+
+    all_days = pd.date_range(start=df_daily['OrderDate'].min(), 
+                             end=df_daily['OrderDate'].max(), freq='D')
+    all_items = df_subs['SubcategoryName'].unique()
+    grid = pd.MultiIndex.from_product([all_days, all_items], names=['OrderDate', 'SubcategoryName'])
+    df_grid = pd.DataFrame(index=grid).reset_index()
+
+    df_final = pd.merge(df_grid, df_daily, on=['OrderDate', 'SubcategoryName'], how='left')
+    df_final['OrderQuantity'] = df_final['OrderQuantity'].fillna(0).astype(int)
+    df_final['StockDate'] = df_final['StockDate'].fillna(m_date)
+    
+    return df_final
+
+def route_and_split(df_final):
     """
-    Accepts raw data from orchestrator and routes items to models.
+    Statistically analyzes subcategories to route to ARIMA, Prophet, or ColdStart.
+    Includes 'Trend Check' to avoid misrouting sparse items with high volume.
     """
-    try:
-        # --- 1. DATA DENSIFICATION ---
-        # Group by Day/Item and sum quantities
-        df_daily = df_raw.groupby(['OrderDate', 'SubcategoryName']).agg({
-            'OrderQuantity': 'sum',
-            'StockDate': 'min'
-        }).reset_index()
+    # 1. Routing Metrics
+    metrics = df_final.groupby('SubcategoryName').agg(
+        TotalSales=('OrderQuantity', 'sum'),
+        ZeroDays=('OrderQuantity', lambda x: (x == 0).sum()),
+        TotalDays=('OrderQuantity', 'count'),
+        MaxSingleDay=('OrderQuantity', 'max'), # For Trend Check
+        FirstStock=('StockDate', 'min'),
+        LastDate=('OrderDate', 'max')
+    ).reset_index()
 
-        # Create the Grid (Every Day x Every Item)
-        all_days = pd.date_range(start=df_daily['OrderDate'].min(), 
-                                 end=df_daily['OrderDate'].max(), freq='D')
-        all_items = df_subs['SubcategoryName'].unique()
-        grid = pd.MultiIndex.from_product([all_days, all_items], names=['OrderDate', 'SubcategoryName'])
-        df_grid = pd.DataFrame(index=grid).reset_index()
+    metrics['ZeroRatio'] = metrics['ZeroDays'] / metrics['TotalDays']
+    
+    # Trend Check: If a single day accounts for more than 50% of total sales,
+    # it is a 'Trendy' spike, not a consistent statistical pattern.
+    metrics['IsSpiky'] = (metrics['MaxSingleDay'] / metrics['TotalSales']) > 0.50
 
-        # Merge and Impute
-        df_final = pd.merge(df_grid, df_daily, on=['OrderDate', 'SubcategoryName'], how='left')
-        df_final['OrderQuantity'] = df_final['OrderQuantity'].fillna(0).astype(int)
-        df_final['StockDate'] = df_final['StockDate'].fillna(m_date)
-
-        # --- 2. ROUTING LOGIC ---
-        route_metrics = df_final.groupby('SubcategoryName').agg(
-            TotalSales=('OrderQuantity', 'sum'),
-            ZeroDays=('OrderQuantity', lambda x: (x == 0).sum()),
-            TotalDays=('OrderQuantity', 'count'),
-            FirstStock=('StockDate', 'min'),
-            LastDate=('OrderDate', 'max')
-        ).reset_index()
-
-        route_metrics['DaysSinceStocked'] = (route_metrics['LastDate'] - route_metrics['FirstStock']).dt.days + 1
-        route_metrics['DailyVelocity'] = route_metrics['TotalSales'] / route_metrics['DaysSinceStocked']
-        route_metrics['ZeroRatio'] = route_metrics['ZeroDays'] / route_metrics['TotalDays']
+    def determine_route(row):
+        # 1. Spiky/Trendy items or Very Sparse items -> ColdStart
+        if row['IsSpiky'] or row['ZeroRatio'] > 0.60:
+            return 'ColdStart'
         
-        # Threshold for high-velocity items
-        v_thresh = route_metrics['DailyVelocity'].quantile(0.95) 
-
-        def determine_route(row):
-            if row['DailyVelocity'] >= v_thresh: return 'AutoARIMA'
-            if row['ZeroRatio'] < 0.20: return 'AutoARIMA'
-            elif row['ZeroRatio'] < 0.60: return 'Prophet'
-            else: return 'ColdStart'
-
-        route_map = route_metrics.set_index('SubcategoryName').apply(determine_route, axis=1).to_dict()
-        df_final['TargetModel'] = df_final['SubcategoryName'].map(route_map)
-
-        # --- 3. BUNDLING ---
-        arima_full = df_final[df_final['TargetModel'] == 'AutoARIMA'].copy()
-        prophet_full = df_final[df_final['TargetModel'] == 'Prophet'].copy()
-        cold_start_full = df_final[df_final['TargetModel'] == 'ColdStart'].copy()
-
-        arima_train, arima_test = time_series_split(arima_full)
-        prophet_train, prophet_test = time_series_split(prophet_full)
+        # 2. Consistent high-volume sales -> AutoARIMA
+        elif row['ZeroRatio'] <= 0.35:
+            return 'AutoARIMA'
         
-        bundles = {
-            'arima': (arima_train, arima_test),
-            'prophet': (prophet_train, prophet_test),
-            'cold_start': cold_start_full
-        }
+        # 3. Moderate sparsity -> Prophet
+        else:
+            return 'Prophet'
 
-        logging.info(f"Features Ready. Stats: ARIMA({arima_full['SubcategoryName'].nunique()}), "
-                     f"Prophet({prophet_full['SubcategoryName'].nunique()}), "
-                     f"ColdStart({cold_start_full['SubcategoryName'].nunique()})")
+    route_map = metrics.set_index('SubcategoryName').apply(determine_route, axis=1).to_dict()
+    df_final['TargetModel'] = df_final['SubcategoryName'].map(route_map)
 
-        # IMPORTANT: Return df_final as first element for predict.py to use max_date
-        return df_final, bundles
+    # 2. Create Bundles
+    bundles = {
+        'arima': time_series_split(df_final[df_final['TargetModel'] == 'AutoARIMA']),
+        'prophet': time_series_split(df_final[df_final['TargetModel'] == 'Prophet']),
+        'cold_start': df_final[df_final['TargetModel'] == 'ColdStart'].copy()
+    }
 
-    except Exception as e:
-        logging.error(f"Feature engineering failed: {e}")
-        raise
-
-if __name__ == "__main__":
-    # bundles = generate_features()
-    # print("\n--- Pipeline Verification ---")
-    # for key, val in bundles.items():
-    #     if isinstance(val, tuple):
-    #         print(f"{key.upper()} -> Train: {val[0].shape}, Test: {val[1].shape}")
-    #     else:
-    #         print(f"{key.upper()} -> Full: {val.shape}")
-    pass
+    logging.info(f"Routing Complete. Spiky items identified: {metrics['IsSpiky'].sum()}")
+    return df_final, bundles
