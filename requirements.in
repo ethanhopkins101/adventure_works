@@ -1,0 +1,18 @@
+# Data Processing
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+joblib
+prophet
+lifetimes
+statsmodels
+
+# MMM & Statistics
+pymc
+arviz
+
+# Visualization
+matplotlib
+seaborn

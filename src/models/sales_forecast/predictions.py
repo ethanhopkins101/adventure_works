@@ -14,9 +14,9 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Define and create directories
 PIC_DIR = os.path.abspath(os.path.join(script_dir, "../../../pictures/sales_forecast/"))
-REPORT_DIR = os.path.abspath(os.path.join(script_dir, "../../../json_files/sales_forecast/"))
+REPORT_DIR = os.path.abspath(os.path.join(script_dir, "../../../json_files/sales_forecast/encoded/"))
 MODEL_DIR = os.path.abspath(os.path.join(script_dir, "../../../models/sales_forecast/"))
-JSON_DIR = os.path.abspath(os.path.join(script_dir, "../../../json_files/sales_forecast/"))
+JSON_DIR = os.path.abspath(os.path.join(script_dir, "../../../json_files/sales_forecast/encoded/"))
 
 for directory in [PIC_DIR, REPORT_DIR, MODEL_DIR, JSON_DIR]:
     os.makedirs(directory, exist_ok=True)

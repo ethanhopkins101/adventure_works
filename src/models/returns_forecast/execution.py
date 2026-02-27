@@ -1,10 +1,12 @@
 import os
 import glob
 import pandas as pd
-from data_gathering import get_returns_raw_data
-import features as ft
-import train as tr
-import predictions as pr
+
+# Absolute imports starting from the project root (src)
+from src.models.returns_forecast.data_gathering import get_returns_raw_data
+import src.models.returns_forecast.features as ft
+import src.models.returns_forecast.train as tr
+import src.models.returns_forecast.predictions as pr
 
 def run_pipeline(force_retrain=False):
     """
@@ -15,7 +17,7 @@ def run_pipeline(force_retrain=False):
     
     sales_forecast_path = os.path.abspath(os.path.join(
         base_dir, 
-        '../../../json_files/sales_forecast/latest_sales_forecast.json'
+        '../../../json_files/sales_forecast/encoded/latest_sales_forecast.json'
     ))
     
     existing_models = glob.glob(os.path.join(model_dir, "*.pkl"))

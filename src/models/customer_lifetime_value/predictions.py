@@ -3,6 +3,7 @@ import os
 import joblib
 import pandas as pd
 import lifetimes as lf
+import json
 # This line MUST come before the Imputer import
 from sklearn.experimental import enable_iterative_imputer 
 from sklearn.impute import IterativeImputer
@@ -36,7 +37,14 @@ def run_predictions(df_core, model_path='../../../models/customer_lifetime_value
     scaled_data = scaler.transform(df_core[features])
     df_core['Segment'] = kmeans.predict(scaled_data)
     
+# 4. Save CSV Output
+    csv_output_dir = '../../../data/models/customer_lifetime_value'
+    if not os.path.exists(csv_output_dir):
+        os.makedirs(csv_output_dir)
+    df_core.to_csv(os.path.join(csv_output_dir, 'core_predictions.csv'), index=False)
+    
     return df_core
+
 
 def segment_outliers(df_whales, df_high_freq, df_high_mon):
     """
@@ -123,8 +131,14 @@ def apply_business_logic(full_df):
     # 2. Convert to DataFrame for merging
     mapping_df = pd.DataFrame(segment_mapping)
 
-    # 3. Merge with full_df on the 'Segment' column
-    # This automatically adds the 'segment name', 'reason', 'strategy', and 'plan' cols
+    # 3. Save Table as CSV
+    csv_output_dir = '../../../data/models/customer_lifetime_value/'
+    if not os.path.exists(csv_output_dir):
+        os.makedirs(csv_output_dir)
+    
+    mapping_df.to_csv(os.path.join(csv_output_dir, 'segment_strategies_table.csv'), index=False)
+
+    # 4. Merge for internal DataFrame return
     final_output = full_df.merge(mapping_df, on='Segment', how='left')
 
     return final_output

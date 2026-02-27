@@ -1,0 +1,66 @@
+{
+    "budget_15000": [
+        {
+            "Channel": "facebook_s",
+            "Budget": 8250.0,
+            "ROI": 1.77,
+            "Expected_Profit": 14602.5
+        },
+        {
+            "Channel": "tv_s",
+            "Budget": 4500.0,
+            "ROI": 0.9,
+            "Expected_Profit": 4050.0
+        },
+        {
+            "Channel": "ooh_s",
+            "Budget": 750.0,
+            "ROI": 0.54,
+            "Expected_Profit": 405.0
+        },
+        {
+            "Channel": "print_s",
+            "Budget": 750.0,
+            "ROI": 0.21,
+            "Expected_Profit": 157.5
+        },
+        {
+            "Channel": "search_s",
+            "Budget": 750.0,
+            "ROI": 0.04,
+            "Expected_Profit": 30.0
+        }
+    ],
+    "budget_20000": [
+        {
+            "Channel": "facebook_s",
+            "Budget": 10000.0,
+            "ROI": 1.77,
+            "Expected_Profit": 17700.0
+        },
+        {
+            "Channel": "tv_s",
+            "Budget": 7000.0,
+            "ROI": 0.9,
+            "Expected_Profit": 6300.0
+        },
+        {
+            "Channel": "ooh_s",
+            "Budget": 1000.0,
+            "ROI": 0.54,
+            "Expected_Profit": 540.0
+        },
+        {
+            "Channel": "print_s",
+            "Budget": 1000.0,
+            "ROI": 0.21,
+            "Expected_Profit": 210.0
+        },
+        {
+            "Channel": "search_s",
+            "Budget": 1000.0,
+            "ROI": 0.04,
+            "Expected_Profit": 40.0
+        }
+    ]
+}

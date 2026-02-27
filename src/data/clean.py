@@ -421,3 +421,18 @@ def clean_returns(df):
         print(f"Returns Date Error: {e}")
 
     return df_clean
+
+
+def clean_price_elasticity(df):
+    """
+    Cleans the price elasticity raw data by removing noise and ensuring 
+    correct data types for regression analysis.
+    """
+    # Remove missing values and duplicates
+    df = df.dropna().drop_duplicates()
+    
+    # Ensure numeric types for modeling
+    df['ProductPrice'] = pd.to_numeric(df['ProductPrice'], errors='coerce')
+    df['OrderQuantity'] = pd.to_numeric(df['OrderQuantity'], errors='coerce')
+    
+    return df.dropna()

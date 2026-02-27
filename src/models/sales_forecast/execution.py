@@ -3,16 +3,16 @@ import logging
 import pandas as pd
 from datetime import timedelta
 
-# Import custom modules
-from data_gathering import gather_sales_data
-from features import create_daily_skeleton, route_and_split, apply_persistent_encoding
-from train import train_arima_models, train_prophet_models
-from predictions import run_sales_prediction, generate_stocking_report, generate_staffing_heatmap
+# Absolute imports starting from the project root (src)
+from src.models.sales_forecast.data_gathering import gather_sales_data
+from src.models.sales_forecast.features import create_daily_skeleton, route_and_split, apply_persistent_encoding
+from src.models.sales_forecast.train import train_arima_models, train_prophet_models
+from src.models.sales_forecast.predictions import run_sales_prediction, generate_stocking_report, generate_staffing_heatmap
 
 # Path Configuration
 script_dir = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.abspath(os.path.join(script_dir, "../../../models/sales_forecast/"))
-JSON_DIR = os.path.abspath(os.path.join(script_dir, "../../../json_files/sales_forecast/"))
+JSON_DIR = os.path.abspath(os.path.join(script_dir, "../../../json_files/sales_forecast/encoded"))
 FORECAST_JSON = os.path.join(JSON_DIR, "latest_sales_forecast.json")
 
 # Ensure directories exist before execution

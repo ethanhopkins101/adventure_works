@@ -1,11 +1,11 @@
 import os
 import pickle
 
-# Import our custom modules
-from gathering_data import gather_mmm_data
-from features import process_features
-from train import train_and_save_model
-from predictions import (
+# Absolute imports starting from the project root (src)
+from src.models.bayesian_mmm.gathering_data import gather_mmm_data
+from src.models.bayesian_mmm.features import process_features
+from src.models.bayesian_mmm.train import train_and_save_model
+from src.models.bayesian_mmm.predictions import (
     get_roi_analysis, 
     generate_waterfall_chart, 
     run_budget_simulations

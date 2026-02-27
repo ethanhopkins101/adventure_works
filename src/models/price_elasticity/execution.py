@@ -5,12 +5,12 @@ import pandas as pd
 import numpy as np
 import joblib
 
-# Importing the previous pipeline steps
-from gathering_data import get_cleaned_data
-from train import train_and_save_models
-from predictions import generate_optimization_plots, generate_performance_csv
+# Absolute imports starting from the project root (src)
+from src.models.price_elasticity.gathering_data import get_cleaned_data
+from src.models.price_elasticity.train import train_and_save_models
+from src.models.price_elasticity.predictions import generate_optimization_plots, generate_performance_csv
 
-def main():
+def run_pipeline():
     # 1. PATH CONFIGURATION
     # Defining the absolute path to the models directory
     models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../models/price_elasticity/'))
@@ -82,4 +82,4 @@ def main():
     print(f">>> [VISUAL] Optimization charts saved at: {plot_path}")
 
 if __name__ == "__main__":
-    main()
+    run_pipeline()

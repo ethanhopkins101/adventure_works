@@ -1,0 +1,335 @@
+{
+    "Mountain Bikes": {
+        "item_id": "21",
+        "forecasted_sales_total": 305.01,
+        "safety_stock_estimate": 45.75,
+        "total_stock_recommendation": 350.76,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Mountain Bikes"
+    },
+    "Road Bikes": {
+        "item_id": "26",
+        "forecasted_sales_total": 335.33,
+        "safety_stock_estimate": 50.3,
+        "total_stock_recommendation": 385.63,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Road Bikes"
+    },
+    "Touring Bikes": {
+        "item_id": "33",
+        "forecasted_sales_total": 220.62,
+        "safety_stock_estimate": 33.09,
+        "total_stock_recommendation": 253.71,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Touring Bikes"
+    },
+    "Handlebars": {
+        "item_id": "14",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Handlebars"
+    },
+    "Bottom Brackets": {
+        "item_id": "4",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Bottom Brackets"
+    },
+    "Brakes": {
+        "item_id": "5",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Brakes"
+    },
+    "Chains": {
+        "item_id": "7",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Chains"
+    },
+    "Cranksets": {
+        "item_id": "9",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Cranksets"
+    },
+    "Derailleurs": {
+        "item_id": "10",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Derailleurs"
+    },
+    "Forks": {
+        "item_id": "12",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Forks"
+    },
+    "Headsets": {
+        "item_id": "15",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Headsets"
+    },
+    "Mountain Frames": {
+        "item_id": "22",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Mountain Frames"
+    },
+    "Pedals": {
+        "item_id": "24",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Pedals"
+    },
+    "Road Frames": {
+        "item_id": "27",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Road Frames"
+    },
+    "Saddles": {
+        "item_id": "28",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Saddles"
+    },
+    "Touring Frames": {
+        "item_id": "34",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Touring Frames"
+    },
+    "Wheels": {
+        "item_id": "36",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Wheels"
+    },
+    "Bib-Shorts": {
+        "item_id": "0",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Bib-Shorts"
+    },
+    "Caps": {
+        "item_id": "6",
+        "forecasted_sales_total": 284.09,
+        "safety_stock_estimate": 42.61,
+        "total_stock_recommendation": 326.7,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Caps"
+    },
+    "Gloves": {
+        "item_id": "13",
+        "forecasted_sales_total": 208.08,
+        "safety_stock_estimate": 31.21,
+        "total_stock_recommendation": 239.29,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Gloves"
+    },
+    "Jerseys": {
+        "item_id": "18",
+        "forecasted_sales_total": 241.27,
+        "safety_stock_estimate": 36.19,
+        "total_stock_recommendation": 277.46,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Jerseys"
+    },
+    "Shorts": {
+        "item_id": "29",
+        "forecasted_sales_total": 65.66,
+        "safety_stock_estimate": 9.85,
+        "total_stock_recommendation": 75.51,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Shorts"
+    },
+    "Socks": {
+        "item_id": "30",
+        "forecasted_sales_total": 96.98,
+        "safety_stock_estimate": 14.55,
+        "total_stock_recommendation": 111.53,
+        "model_used": "Prophet",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Socks"
+    },
+    "Tights": {
+        "item_id": "31",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Tights"
+    },
+    "Vests": {
+        "item_id": "35",
+        "forecasted_sales_total": 69.82,
+        "safety_stock_estimate": 10.47,
+        "total_stock_recommendation": 80.29,
+        "model_used": "Prophet",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Vests"
+    },
+    "Bike Racks": {
+        "item_id": "1",
+        "forecasted_sales_total": 26.99,
+        "safety_stock_estimate": 4.05,
+        "total_stock_recommendation": 31.04,
+        "model_used": "Prophet",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Bike Racks"
+    },
+    "Bike Stands": {
+        "item_id": "2",
+        "forecasted_sales_total": 17.81,
+        "safety_stock_estimate": 2.67,
+        "total_stock_recommendation": 20.48,
+        "model_used": "Prophet",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Bike Stands"
+    },
+    "Bottles and Cages": {
+        "item_id": "3",
+        "forecasted_sales_total": 1182.45,
+        "safety_stock_estimate": 177.37,
+        "total_stock_recommendation": 1359.82,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Bottles and Cages"
+    },
+    "Cleaners": {
+        "item_id": "8",
+        "forecasted_sales_total": 120.0,
+        "safety_stock_estimate": 18.0,
+        "total_stock_recommendation": 138.0,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Cleaners"
+    },
+    "Fenders": {
+        "item_id": "11",
+        "forecasted_sales_total": 260.72,
+        "safety_stock_estimate": 39.11,
+        "total_stock_recommendation": 299.83,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Fenders"
+    },
+    "Helmets": {
+        "item_id": "16",
+        "forecasted_sales_total": 473.25,
+        "safety_stock_estimate": 70.99,
+        "total_stock_recommendation": 544.24,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Helmets"
+    },
+    "Hydration Packs": {
+        "item_id": "17",
+        "forecasted_sales_total": 48.8,
+        "safety_stock_estimate": 7.32,
+        "total_stock_recommendation": 56.12,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Hydration Packs"
+    },
+    "Lights": {
+        "item_id": "19",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Lights"
+    },
+    "Locks": {
+        "item_id": "20",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Locks"
+    },
+    "Panniers": {
+        "item_id": "23",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Panniers"
+    },
+    "Pumps": {
+        "item_id": "25",
+        "forecasted_sales_total": 0,
+        "safety_stock_estimate": 0.0,
+        "total_stock_recommendation": 0.0,
+        "model_used": "ColdStart",
+        "stock_logic": "Volatility-Adjusted",
+        "item_name": "Pumps"
+    },
+    "Tires and Tubes": {
+        "item_id": "32",
+        "forecasted_sales_total": 1359.09,
+        "safety_stock_estimate": 203.86,
+        "total_stock_recommendation": 1562.95,
+        "model_used": "AutoARIMA",
+        "stock_logic": "Error-Adjusted",
+        "item_name": "Tires and Tubes"
+    }
+}

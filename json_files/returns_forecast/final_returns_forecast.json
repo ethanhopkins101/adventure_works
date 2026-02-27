@@ -1,0 +1,335 @@
+[
+    {
+        "SubcategoryName": "Bib-Shorts",
+        "SubcategoryID": "0",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Bike Racks",
+        "SubcategoryID": "1",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Bike Stands",
+        "SubcategoryID": "2",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Bottles and Cages",
+        "SubcategoryID": "3",
+        "Predicted_Returns_Total": 23,
+        "Confidence_Rating": "85.0%",
+        "Model_Used": "Prophet",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Bottom Brackets",
+        "SubcategoryID": "4",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Brakes",
+        "SubcategoryID": "5",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Caps",
+        "SubcategoryID": "6",
+        "Predicted_Returns_Total": 43,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Chains",
+        "SubcategoryID": "7",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Cleaners",
+        "SubcategoryID": "8",
+        "Predicted_Returns_Total": 20,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Cranksets",
+        "SubcategoryID": "9",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Derailleurs",
+        "SubcategoryID": "10",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Fenders",
+        "SubcategoryID": "11",
+        "Predicted_Returns_Total": 22,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Forks",
+        "SubcategoryID": "12",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Gloves",
+        "SubcategoryID": "13",
+        "Predicted_Returns_Total": 25,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Handlebars",
+        "SubcategoryID": "14",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Headsets",
+        "SubcategoryID": "15",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Helmets",
+        "SubcategoryID": "16",
+        "Predicted_Returns_Total": 21,
+        "Confidence_Rating": "85.0%",
+        "Model_Used": "Prophet",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Hydration Packs",
+        "SubcategoryID": "17",
+        "Predicted_Returns_Total": 13,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Jerseys",
+        "SubcategoryID": "18",
+        "Predicted_Returns_Total": 11,
+        "Confidence_Rating": "85.0%",
+        "Model_Used": "Prophet",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Lights",
+        "SubcategoryID": "19",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Locks",
+        "SubcategoryID": "20",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Mountain Bikes",
+        "SubcategoryID": "21",
+        "Predicted_Returns_Total": 10,
+        "Confidence_Rating": "85.0%",
+        "Model_Used": "Prophet",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Mountain Frames",
+        "SubcategoryID": "22",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Panniers",
+        "SubcategoryID": "23",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Pedals",
+        "SubcategoryID": "24",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Pumps",
+        "SubcategoryID": "25",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Road Bikes",
+        "SubcategoryID": "26",
+        "Predicted_Returns_Total": 14,
+        "Confidence_Rating": "85.0%",
+        "Model_Used": "Prophet",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Road Frames",
+        "SubcategoryID": "27",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Saddles",
+        "SubcategoryID": "28",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Shorts",
+        "SubcategoryID": "29",
+        "Predicted_Returns_Total": 19,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Socks",
+        "SubcategoryID": "30",
+        "Predicted_Returns_Total": 18,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Tights",
+        "SubcategoryID": "31",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Tires and Tubes",
+        "SubcategoryID": "32",
+        "Predicted_Returns_Total": 30,
+        "Confidence_Rating": "85.0%",
+        "Model_Used": "Prophet",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Touring Bikes",
+        "SubcategoryID": "33",
+        "Predicted_Returns_Total": 28,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Touring Frames",
+        "SubcategoryID": "34",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Vests",
+        "SubcategoryID": "35",
+        "Predicted_Returns_Total": 35,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    },
+    {
+        "SubcategoryName": "Wheels",
+        "SubcategoryID": "36",
+        "Predicted_Returns_Total": 0,
+        "Confidence_Rating": "65.0%",
+        "Model_Used": "ColdStart",
+        "Forecast_Start": "2017-07-01",
+        "Forecast_End": "2017-07-30"
+    }
+]
