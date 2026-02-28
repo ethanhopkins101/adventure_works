@@ -8,10 +8,18 @@ import json
 from sklearn.experimental import enable_iterative_imputer 
 from sklearn.impute import IterativeImputer
 
-def run_predictions(df_core, model_path='../../../models/customer_lifetime_value'):
+# --- PATH ANCHORING ---
+# Defines the absolute path to this script's directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def run_predictions(df_core, model_path=None):
     """
     Loads saved models and applies them to the core dataframe.
     """
+    # Use anchored path if no model_path is provided
+    if model_path is None:
+        model_path = os.path.abspath(os.path.join(BASE_DIR, '../../../models/customer_lifetime_value'))
+
     # 1. Load Assets
     bgf = lf.BetaGeoFitter()
     bgf.load_model(os.path.join(model_path, 'bgf_model.pkl'))
@@ -37,10 +45,11 @@ def run_predictions(df_core, model_path='../../../models/customer_lifetime_value
     scaled_data = scaler.transform(df_core[features])
     df_core['Segment'] = kmeans.predict(scaled_data)
     
-# 4. Save CSV Output
-    csv_output_dir = '../../../data/models/customer_lifetime_value'
+    # 4. Save CSV Output (Anchored Path)
+    csv_output_dir = os.path.abspath(os.path.join(BASE_DIR, '../../../data/models/customer_lifetime_value'))
     if not os.path.exists(csv_output_dir):
         os.makedirs(csv_output_dir)
+    
     df_core.to_csv(os.path.join(csv_output_dir, 'core_predictions.csv'), index=False)
     
     return df_core
@@ -82,7 +91,6 @@ def combine_and_impute(df_core, outlier_list, customer_demographics):
     full_df['Marketing_Budget_90d'] = full_df['CLV_90d'] * 0.20
 
     # 4. Merge with Demographics
-    # We use a Left Join to ensure we keep all 5,000 customers from our RFM logic
     full_df = full_df.merge(customer_demographics, on='CustomerKey', how='left')
     
     return full_df
@@ -131,8 +139,8 @@ def apply_business_logic(full_df):
     # 2. Convert to DataFrame for merging
     mapping_df = pd.DataFrame(segment_mapping)
 
-    # 3. Save Table as CSV
-    csv_output_dir = '../../../data/models/customer_lifetime_value/'
+    # 3. Save Table as CSV (Anchored Path)
+    csv_output_dir = os.path.abspath(os.path.join(BASE_DIR, '../../../data/models/customer_lifetime_value'))
     if not os.path.exists(csv_output_dir):
         os.makedirs(csv_output_dir)
     
